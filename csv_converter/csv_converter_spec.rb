@@ -7,10 +7,10 @@ RSpec.describe CsvConverter do
     csv_row = ['path', 'occurances']
     allow(CSV).to receive(:foreach).with(filename).and_yield csv_row
 
-    documents = CsvConverter.new.convert(filename)
+    locations = CsvConverter.new.convert(filename)
 
-    expect(csv_row[0]).to eql(documents[0].path)
-    expect(csv_row[1]).to eql(documents[0].occurances)
-    expect(1).to eql(documents.length)
+    expect(csv_row[0]).to eql(locations[0].path)
+    expect(csv_row[1]).to eql(locations[0].occurances)
+    expect(1).to eql(locations.length)
   end
 end
