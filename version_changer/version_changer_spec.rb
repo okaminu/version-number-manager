@@ -32,7 +32,6 @@ describe VersionChanger do
 
   it 'throws an error if there is an unexpected number of version numbers found in file' do
     allow(@converter_stub).to receive(:convert).and_return [VersionNumberLocation.new("file.conf", 3)]
-    allow(@writable_file_spy).to receive(:write)
     allow(File).to receive(:read).with("/base/file.conf").and_return "file_content \n version:1.0.0 \n dependencyA:1.0.0 \n dependencyB:1.2.0"
     allow(File).to receive(:open).with("/base/file.conf", "w").and_yield @writable_file_spy
 
@@ -44,7 +43,6 @@ describe VersionChanger do
 
   it 'uses parent path of this project, if the base path is not provided' do
     allow(@converter_stub).to receive(:convert).and_return [VersionNumberLocation.new("file.conf", 2)]
-    allow(@writable_file_spy).to receive(:write)
     allow(File).to receive(:read).with("../file.conf").and_return "file_content \n version:1.0.0 \n dependencyA:1.0.0"
     allow(File).to receive(:open).with("../file.conf", "w").and_yield @writable_file_spy
 
