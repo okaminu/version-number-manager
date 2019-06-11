@@ -23,7 +23,7 @@ describe VersionChanger do
 
     expect(@writable_file_spy).to receive(:write).with UPDATED_CONTENT
 
-    VersionChanger.new.change("/csv/path", VersionNumberReplacement.new(OLD_VERSION, NEW_VERSION), '/base')
+    VersionChanger.new.run("/csv/path", VersionNumberReplacement.new(OLD_VERSION, NEW_VERSION), '/base')
   end
 
   it 'throws an error if matched version number count differs' do
@@ -34,7 +34,7 @@ describe VersionChanger do
     expect($stderr).to receive(:puts).with "file.conf contains unexpected count of version numbers, expected 3, got 2"
     expect(@writable_file_spy).not_to receive(:write)
 
-    VersionChanger.new.change("/csv/path", VersionNumberReplacement.new(OLD_VERSION, NEW_VERSION), '/base')
+    VersionChanger.new.run("/csv/path", VersionNumberReplacement.new(OLD_VERSION, NEW_VERSION), '/base')
   end
 
   it 'uses parent path of this project if the base path is not provided' do
@@ -44,6 +44,6 @@ describe VersionChanger do
 
     expect(@writable_file_spy).to receive(:write).with UPDATED_CONTENT
 
-    VersionChanger.new.change("/csv/path", VersionNumberReplacement.new(OLD_VERSION, NEW_VERSION), nil)
+    VersionChanger.new.run("/csv/path", VersionNumberReplacement.new(OLD_VERSION, NEW_VERSION), nil)
   end
 end
