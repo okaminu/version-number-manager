@@ -1,7 +1,7 @@
 require 'csv'
 require_relative 'csv_converter'
 
-RSpec.describe CsvConverter do
+describe CsvConverter do
   it "converts csv file to version number locations" do
     filename = 'data.csv'
     csv_row = ['path', 5]
@@ -11,6 +11,6 @@ RSpec.describe CsvConverter do
 
     expect(csv_row[0]).to eql(locations[0].relative_path)
     expect(csv_row[1]).to eql(locations[0].occurrences)
-    expect(1).to eql(locations.length)
+    expect(locations.length).to eql(1)
   end
 end
