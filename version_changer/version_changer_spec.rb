@@ -50,10 +50,10 @@ describe VersionChanger do
     allow($converter_stub).to receive(:convert).and_return [VersionNumberLocation.new("file.conf", 2)]
     writable_file_spy = instance_double("FileToWrite")
     allow(writable_file_spy).to receive(:write)
-    allow(File).to receive(:read).with("../file.conf").and_return "file_content \n version:1.0.0 \n dependencyA:1.0.0 \n dependencyB:1.2.0"
+    allow(File).to receive(:read).with("../file.conf").and_return "file_content \n version:1.0.0 \n dependencyA:1.0.0"
     allow(File).to receive(:open).with("../file.conf", "w").and_yield writable_file_spy
 
-    expect(writable_file_spy).to receive(:write).with "file_content \n version:2.0.0 \n dependencyA:2.0.0 \n dependencyB:1.2.0"
+    expect(writable_file_spy).to receive(:write).with "file_content \n version:2.0.0 \n dependencyA:2.0.0"
 
     VersionChanger.new.change("/csv/path", "1.0.0", "2.0.0", nil)
   end
