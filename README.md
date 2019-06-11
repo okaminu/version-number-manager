@@ -11,13 +11,14 @@ Occurances count ensures, that the manager changes only the predefined count of 
 Version manager is launched by executing main.rb with parameters:
 
 * CSV_PATH - path to CSV file
-* BASE_PROJECT_PATH - full path to the location, containing all the project modules. 
 * OLD_VERSION - currently existing version in a given project. 
 * NEW_VERSION - updated version number.
+* BASE_PROJECT_PATH(Optional) - full path to the location containing all the project modules. If undefined, parent directory of this project is used.
+
 
 ```
-ruby main.rb CSV_PATH, BASE_PROJECT_PATH, OLD_VERSION, NEW_VERSION
-ruby main.rb /home/User/Documents/file.csv /home/User/projects/ 2.2.2 2.2.3
+ruby main.rb CSV_PATH, OLD_VERSION, NEW_VERSION, BASE_PROJECT_PATH?
+ruby main.rb /home/User/Documents/file.csv 2.2.2 2.2.3
 ```
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
