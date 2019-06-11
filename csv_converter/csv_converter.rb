@@ -6,7 +6,7 @@ class CsvConverter
     locations = []
 
     CSV.foreach(filename) do |row|
-      locations.push(VersionNumberLocation.new(row[0], row[1]))
+      locations.push(VersionNumberLocation.new(row[0], row[1].to_i))
     end
 
     locations
