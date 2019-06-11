@@ -3,6 +3,11 @@ This project replaces version numbers in given files.
 
 ## Installation
 
+```
+gem install bundler
+bundle install
+```
+
 ## Usage
 Create a CSV file, which has two columns: relative file path and version number occurrence count.
 This configuration file will describe the files in which we want version numbers updated.
