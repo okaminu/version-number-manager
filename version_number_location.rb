@@ -1,7 +1,7 @@
 class VersionNumberLocation
-  attr_reader :path, :occurances
+  attr_reader :relative_path, :occurances
 
   def initialize(path, occurances)
-    @path, @occurances = path, occurances
+    @relative_path, @occurances = path, occurances
   end
 end
