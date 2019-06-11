@@ -1,3 +1,5 @@
 source 'https://rubygems.org'
 
-gem "rspec"
+gem 'rake'
+gem 'rspec'
+gem 'rubocop', '~> 0.71.0', require: false
