@@ -4,7 +4,7 @@ require_relative 'csv_converter'
 RSpec.describe CsvConverter do
   it "converts csv file to version number locations" do
     filename = 'data.csv'
-    csv_row = ['path', 'occurances']
+    csv_row = ['path', 5]
     allow(CSV).to receive(:foreach).with(filename).and_yield csv_row
 
     locations = CsvConverter.new.convert(filename)
