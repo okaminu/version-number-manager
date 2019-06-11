@@ -1,5 +1,6 @@
 require_relative 'version_changer'
 require_relative '../csv_converter/csv_converter'
+require_relative '../value_object/version_number_replacement'
 
 describe VersionChanger do
 
@@ -17,7 +18,7 @@ describe VersionChanger do
 
     expect(@writable_file_spy).to receive(:write).with "file_content \n version:2.0.0 \n dependencyA:2.0.0"
 
-    VersionChanger.new.change("/csv/path", "1.0.0", "2.0.0", '/base')
+    VersionChanger.new.change("/csv/path", VersionNumberReplacement.new("1.0.0", "2.0.0"), '/base')
   end
 
   it 'ignores unmatched versions' do
@@ -27,7 +28,7 @@ describe VersionChanger do
 
     expect(@writable_file_spy).to receive(:write).with "file_content \n version:2.0.0 \n dependencyA:2.0.0 \n dependencyB:1.2.0"
 
-    VersionChanger.new.change("/csv/path", "1.0.0", "2.0.0", '/base')
+    VersionChanger.new.change("/csv/path", VersionNumberReplacement.new("1.0.0", "2.0.0"), '/base')
   end
 
   it 'throws an error if there is an unexpected number of version numbers found in file' do
@@ -38,7 +39,7 @@ describe VersionChanger do
     expect($stderr).to receive(:puts).with "file.conf contains unexpected count of version numbers, expected 3, got 2"
     expect(@writable_file_spy).not_to receive(:write)
 
-    VersionChanger.new.change("/csv/path", "1.0.0", "2.0.0", '/base')
+    VersionChanger.new.change("/csv/path", VersionNumberReplacement.new("1.0.0", "2.0.0"), '/base')
   end
 
   it 'uses parent path of this project, if the base path is not provided' do
@@ -48,6 +49,6 @@ describe VersionChanger do
 
     expect(@writable_file_spy).to receive(:write).with "file_content \n version:2.0.0 \n dependencyA:2.0.0"
 
-    VersionChanger.new.change("/csv/path", "1.0.0", "2.0.0", nil)
+    VersionChanger.new.change("/csv/path", VersionNumberReplacement.new("1.0.0", "2.0.0"), nil)
   end
 end

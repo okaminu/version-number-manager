@@ -10,7 +10,7 @@ RSpec.describe CsvConverter do
     locations = CsvConverter.new.convert(filename)
 
     expect(csv_row[0]).to eql(locations[0].relative_path)
-    expect(csv_row[1]).to eql(locations[0].occurances)
+    expect(csv_row[1]).to eql(locations[0].occurrences)
     expect(1).to eql(locations.length)
   end
 end

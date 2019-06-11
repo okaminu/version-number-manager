@@ -1,5 +1,5 @@
 require 'csv'
-require_relative '../version_number_location'
+require_relative '../value_object/version_number_location'
 
 class CsvConverter
   def convert(filename)
