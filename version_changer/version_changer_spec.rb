@@ -14,8 +14,7 @@ describe 'VersionChanger' do
   it 'updates file content with a known number of substituted version numbers by ignoring unmatched version numbers' do
     allow(OccurrencesInFilesFactory).to receive(:from_csv)
       .with('/csv/path').and_return [OccurrenceInFile.new('file.conf', 2)]
-    allow(File).to receive(:read).with('/base/file.conf').and_return CONTENT
-    allow(File).to receive(:open).with('/base/file.conf', 'w').and_yield @writable_file_spy
+    stub_file
 
     expect(@writable_file_spy).to receive(:write).with UPDATED_CONTENT
 
@@ -26,26 +25,27 @@ describe 'VersionChanger' do
 
     it 'if more version numbers were matched' do
       allow(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new('file.conf', 3)]
-      expect($stderr).to receive(:puts).with 'file.conf contains unexpected count of version numbers, expected 3, got 2'
-      stub_and_assert
+      stub_file
 
-      replace_in_files('/csv/path', VersionNumberReplacement.new(CURRENT_VERSION, NEW_VERSION), '/base')
+      expect(@writable_file_spy).not_to receive(:write)
+      expect {replace_in_files('/csv/path', VersionNumberReplacement.new(CURRENT_VERSION, NEW_VERSION), '/base')}
+          .to output("file.conf contains unexpected count of version numbers, expected 3, got 2\n").to_stderr
     end
 
     it 'if less version numbers were matched' do
       allow(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new('file.conf', 1)]
-      expect($stderr).to receive(:puts).with 'file.conf contains unexpected count of version numbers, expected 1, got 2'
-      stub_and_assert
+      stub_file
 
-      replace_in_files('/csv/path', VersionNumberReplacement.new(CURRENT_VERSION, NEW_VERSION), '/base')
-    end
-
-    def stub_and_assert
-      allow(File).to receive(:read).with('/base/file.conf').and_return CONTENT
-      allow(File).to receive(:open).with('/base/file.conf', 'w').and_yield @writable_file_spy
       expect(@writable_file_spy).not_to receive(:write)
+      expect {replace_in_files('/csv/path', VersionNumberReplacement.new(CURRENT_VERSION, NEW_VERSION), '/base')}
+          .to output("file.conf contains unexpected count of version numbers, expected 1, got 2\n").to_stderr
     end
 
+  end
+
+  def stub_file
+    allow(File).to receive(:read).with('/base/file.conf').and_return CONTENT
+    allow(File).to receive(:open).with('/base/file.conf', 'w').and_yield @writable_file_spy
   end
 
 end

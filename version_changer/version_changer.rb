@@ -12,7 +12,7 @@ def replace_in_file(occurrence_in_file, version_replacement, base_path)
 
   counted_version_occurrences = file_content.scan(version_replacement.current_version).count
   unless occurrence_in_file.occurrences == counted_version_occurrences
-    STDERR.puts("#{occurrence_in_file.relative_path} contains unexpected count of version numbers, " \
+    warn("#{occurrence_in_file.relative_path} contains unexpected count of version numbers, " \
                     "expected #{occurrence_in_file.occurrences}, got #{counted_version_occurrences}")
     return
   end
