@@ -7,7 +7,7 @@ describe OccurrencesInFilesFactory do
     csv_row = ['path', 5]
     allow(CSV).to receive(:foreach).with(filename).and_yield csv_row
 
-    occurrences = OccurrencesInFilesFactory.new.from_csv(filename)
+    occurrences = OccurrencesInFilesFactory.from_csv(filename)
 
     expect(csv_row[0]).to eql(occurrences[0].relative_path)
     expect(csv_row[1]).to eql(occurrences[0].occurrences)

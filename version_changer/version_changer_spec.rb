@@ -1,5 +1,5 @@
 require_relative 'version_changer'
-require_relative '../csv_converter/occurrences_in_files_factory'
+require_relative '../occurrences_in_files_factory/occurrences_in_files_factory'
 
 describe "VersionChanger" do
 
@@ -9,14 +9,12 @@ describe "VersionChanger" do
   UPDATED_CONTENT = "file_content \n version:2.0.0 \n dependencyA:2.0.0 \n dependencyB:1.2.0"
 
   before(:each) do
-    @occurrences_factory_stub = instance_double("CsvConverter")
     @writable_file_spy = instance_double("FileToWrite")
 
-    allow(OccurrencesInFilesFactory).to receive(:new).and_return @occurrences_factory_stub
   end
 
   it 'updates file content with a known number of substituted version numbers by ignoring unmatched version numbers' do
-    allow(@occurrences_factory_stub).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 2)]
+    allow_any_instance_of(OccurrencesInFilesFactory).to receive(:from_csv).with("/csv/path").and_return [OccurrenceInFile.new("file.conf", 2)]
     allow(File).to receive(:read).with("/base/file.conf").and_return CONTENT
     allow(File).to receive(:open).with("/base/file.conf", "w").and_yield @writable_file_spy
 
@@ -26,7 +24,7 @@ describe "VersionChanger" do
   end
 
   it 'throws an error if more version numbers were matched' do
-    allow(@occurrences_factory_stub).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 3)]
+    allow_any_instance_of(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 3)]
     allow(File).to receive(:read).with("/base/file.conf").and_return CONTENT
     allow(File).to receive(:open).with("/base/file.conf", "w").and_yield @writable_file_spy
 
@@ -37,7 +35,7 @@ describe "VersionChanger" do
   end
 
   it 'throws an error if less version numbers were matched' do
-    allow(@occurrences_factory_stub).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 1)]
+    allow_any_instance_of(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 1)]
     allow(File).to receive(:read).with("/base/file.conf").and_return CONTENT
     allow(File).to receive(:open).with("/base/file.conf", "w").and_yield @writable_file_spy
 
@@ -49,7 +47,7 @@ describe "VersionChanger" do
 
   it 'uses parent path of this project if the base path is not provided' do
     pending
-    allow(@occurrences_factory_stub).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 2)]
+    allow_any_instance_of(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 2)]
     allow(File).to receive(:read).with("../file.conf").and_return CONTENT
     allow(File).to receive(:open).with("../file.conf", "w").and_yield @writable_file_spy
 
