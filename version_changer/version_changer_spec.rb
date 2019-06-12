@@ -14,7 +14,7 @@ describe "VersionChanger" do
   end
 
   it 'updates file content with a known number of substituted version numbers by ignoring unmatched version numbers' do
-    allow_any_instance_of(OccurrencesInFilesFactory).to receive(:from_csv).with("/csv/path").and_return [OccurrenceInFile.new("file.conf", 2)]
+    allow(OccurrencesInFilesFactory).to receive(:from_csv).with("/csv/path").and_return [OccurrenceInFile.new("file.conf", 2)]
     allow(File).to receive(:read).with("/base/file.conf").and_return CONTENT
     allow(File).to receive(:open).with("/base/file.conf", "w").and_yield @writable_file_spy
 
@@ -24,7 +24,7 @@ describe "VersionChanger" do
   end
 
   it 'throws an error if more version numbers were matched' do
-    allow_any_instance_of(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 3)]
+    allow(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 3)]
     allow(File).to receive(:read).with("/base/file.conf").and_return CONTENT
     allow(File).to receive(:open).with("/base/file.conf", "w").and_yield @writable_file_spy
 
@@ -35,7 +35,7 @@ describe "VersionChanger" do
   end
 
   it 'throws an error if less version numbers were matched' do
-    allow_any_instance_of(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 1)]
+    allow(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 1)]
     allow(File).to receive(:read).with("/base/file.conf").and_return CONTENT
     allow(File).to receive(:open).with("/base/file.conf", "w").and_yield @writable_file_spy
 
@@ -43,16 +43,5 @@ describe "VersionChanger" do
     expect(@writable_file_spy).not_to receive(:write)
 
     replace_in_files("/csv/path", VersionNumberReplacement.new(CURRENT_VERSION, NEW_VERSION), '/base')
-  end
-
-  it 'uses parent path of this project if the base path is not provided' do
-    pending
-    allow_any_instance_of(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new("file.conf", 2)]
-    allow(File).to receive(:read).with("../file.conf").and_return CONTENT
-    allow(File).to receive(:open).with("../file.conf", "w").and_yield @writable_file_spy
-
-    expect(@writable_file_spy).to receive(:write).with UPDATED_CONTENT
-
-    replace_in_files("/csv/path", VersionNumberReplacement.new(CURRENT_VERSION, NEW_VERSION), nil)
   end
 end
