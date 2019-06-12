@@ -2,7 +2,7 @@ require 'csv'
 require_relative 'occurrences_in_files_factory'
 
 describe OccurrencesInFilesFactory do
-  it "converts csv file to occurrences in files" do
+  it 'converts csv file to occurrences in files' do
     filename = 'data.csv'
     csv_row = ['path', 5]
     allow(CSV).to receive(:foreach).with(filename).and_yield csv_row

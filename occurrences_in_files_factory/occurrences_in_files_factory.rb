@@ -3,7 +3,6 @@ require 'csv'
 OccurrenceInFile = Struct.new(:relative_path, :occurrences)
 
 class OccurrencesInFilesFactory
-
   def self.from_csv(csv_file_path)
     occurrences = []
 
@@ -13,5 +12,4 @@ class OccurrencesInFilesFactory
 
     occurrences
   end
-
 end
