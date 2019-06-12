@@ -1,30 +1,25 @@
-require_relative '../csv_converter/csv_converter'
+require_relative '../csv_converter/occurrences_in_files_factory'
 
-class VersionChanger
+VersionNumberReplacement = Struct.new(:current_version, :new_version)
 
-  def run(config_path, version_replacement, base_path)
-    base_path ||= '..'
-    locations = CsvConverter.new.convert(config_path)
-    for loc in locations do
-      replace_in_file(loc, version_replacement, base_path)
-    end
+def replace_in_files(config_path, version_replacement, base_path)
+  occurrences = OccurrencesInFilesFactory.new.from_csv(config_path)
+  for occ in occurrences do
+    replace_in_file(occ, version_replacement, base_path)
+  end
+end
+
+def replace_in_file(occurrence_in_file, version_replacement, base_path)
+  file_content = File.read(base_path + '/' + occurrence_in_file.relative_path)
+
+  counted_version_occurrences = file_content.scan(version_replacement.current_version).count
+  unless occurrence_in_file.occurrences == counted_version_occurrences
+    STDERR.puts("#{occurrence_in_file.relative_path} contains unexpected count of version numbers, " +
+                    "expected #{occurrence_in_file.occurrences}, got #{counted_version_occurrences}")
+    return
   end
 
-  private
-
-  def replace_in_file(location, version_replacement, base_path)
-    file_content = File.read(base_path + '/' + location.relative_path)
-
-    old_version_number_count = file_content.scan(version_replacement.old_version).count
-    unless location.occurrences == old_version_number_count
-      STDERR.puts("#{location.relative_path} contains unexpected count of version numbers, " +
-                      "expected #{location.occurrences}, got #{old_version_number_count}")
-      return
-    end
-
-    File.open(base_path + '/' + location.relative_path, "w") do |f|
-      f.write(file_content.gsub(version_replacement.old_version, version_replacement.new_version))
-    end
+  File.open(base_path + '/' + occurrence_in_file.relative_path, "w") do |f|
+    f.write(file_content.gsub(version_replacement.current_version, version_replacement.new_version))
   end
-
 end
