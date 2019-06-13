@@ -18,7 +18,7 @@ describe VersionChanger do
 
     expect(@writable_file_spy).to receive(:write).with UPDATED_CONTENT
 
-    VersionChanger.new.replace_in_files('/csv/path', VERSION_NUMBER_REPLACEMENT, '/base')
+    VersionChanger.new.replace_in_files('/csv/path', VERSION_NUMBER_REPLACEMENT, '/base/')
   end
 
   describe 'throws an error' do
@@ -26,7 +26,7 @@ describe VersionChanger do
       allow(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new('file.conf', 3)]
 
       expect(@writable_file_spy).not_to receive(:write)
-      expect { VersionChanger.new.replace_in_files('/csv/path', VERSION_NUMBER_REPLACEMENT, '/base') }
+      expect { VersionChanger.new.replace_in_files('/csv/path', VERSION_NUMBER_REPLACEMENT, '/base/') }
         .to output("file.conf contains unexpected count of version numbers, expected 3, got 2\n").to_stderr
     end
 
@@ -34,7 +34,7 @@ describe VersionChanger do
       allow(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new('file.conf', 1)]
 
       expect(@writable_file_spy).not_to receive(:write)
-      expect { VersionChanger.new.replace_in_files('/csv/path', VERSION_NUMBER_REPLACEMENT, '/base') }
+      expect { VersionChanger.new.replace_in_files('/csv/path', VERSION_NUMBER_REPLACEMENT, '/base/') }
         .to output("file.conf contains unexpected count of version numbers, expected 1, got 2\n").to_stderr
     end
   end

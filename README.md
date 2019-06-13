@@ -24,7 +24,7 @@ Version manager is launched by executing main.rb with arguments:
 
 ```
 ruby main.rb CSV_PATH, OLD_VERSION, NEW_VERSION, BASE_PROJECT_PATH?
-ruby main.rb /home/User/Documents/file.csv 2.2.2 2.2.3
+ruby main.rb Documents/file.csv 2.2.2 2.2.3 /home/User/
 ```
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

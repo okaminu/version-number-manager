@@ -11,7 +11,7 @@ class VersionChanger
   private
 
   def replace_in_file(occurrence_in_file, replacement, base_path)
-    file_path = base_path + '/' + occurrence_in_file.relative_path
+    file_path = base_path + occurrence_in_file.relative_path
     file_content = File.read(file_path)
 
     occurrence_count = file_content.scan(replacement.current_version).count
