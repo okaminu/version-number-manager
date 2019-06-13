@@ -1,4 +1,4 @@
-describe 'Integration test' do
+describe 'Integration tests' do
   let(:content)         { "file_content \n version:1.2.5 \n dependencyA:1.2.5 \n dependencyB:1.2.0" }
   let(:updated_content) { "file_content \n version:1.3.1 \n dependencyA:1.3.1 \n dependencyB:1.2.0" }
 
