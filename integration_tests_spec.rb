@@ -14,7 +14,7 @@ describe 'Integration test' do
     File.delete('/tmp/test.test')
   end
 
-  it 'replace version numbers in desired files' do
+  it 'replaces version numbers in desired file' do
     system 'ruby main.rb /tmp/test.csv 1.2.5 1.3.1 /tmp/'
 
     expect(File.read('/tmp/test.test')).to eql(updated_content)
