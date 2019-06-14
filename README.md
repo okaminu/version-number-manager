@@ -11,7 +11,7 @@ bundle install
 Create a CSV file, which has two columns: relative file path and version number occurrence count.
 This configuration file will describe the files in which we want version numbers updated.
 
-Occurrence count ensures, that the manager changes only the predefined count of version in a file. 
+Occurrence count ensures, that the manager changes only the predefined count of version numbers in a file. 
 In case there are other dependencies with the same version number, exception is thrown.
 
 Version manager is launched by executing main.rb with arguments:
