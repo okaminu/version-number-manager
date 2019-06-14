@@ -21,6 +21,17 @@ describe VersionChanger do
     VersionChanger.new.replace_in_files('/csv/path', version_number_replacement, '/base/')
   end
 
+  it 'updates multiple files' do
+    allow(OccurrencesInFilesFactory).to receive(:from_csv)
+      .with('/csv/path').and_return [OccurrenceInFile.new('file.conf', 2), OccurrenceInFile.new('file2.conf', 2)]
+    allow(File).to receive(:read).with('/base/file2.conf').and_return content
+    allow(File).to receive(:open).with('/base/file2.conf', 'w').and_yield @writable_file_spy
+
+    expect(@writable_file_spy).to receive(:write).with(updated_content).twice
+
+    VersionChanger.new.replace_in_files('/csv/path', version_number_replacement, '/base/')
+  end
+
   describe 'throws an error' do
     it 'if more version numbers were matched' do
       allow(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new('file.conf', 3)]
