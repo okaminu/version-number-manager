@@ -11,8 +11,8 @@ class VersionChanger
   private
 
   def replace_in_file(occurrence_in_file, replacement, base_path)
-    file_path = base_path + occurrence_in_file.relative_path
-    file_content = File.read(file_path)
+    absolute_file_path = base_path + occurrence_in_file.relative_path
+    file_content = File.read(absolute_file_path)
 
     occurrence_count = file_content.scan(replacement.current_version).count
     unless occurrence_in_file.occurrences == occurrence_count
@@ -20,13 +20,11 @@ class VersionChanger
       return
     end
 
-    write_to_file(file_path, file_content.gsub(replacement.current_version, replacement.new_version))
+    write_to_file(absolute_file_path, file_content.gsub(replacement.current_version, replacement.new_version))
   end
 
   def write_to_file(file_path, content)
-    File.open(file_path, 'w') do |f|
-      f.write(content)
-    end
+    File.open(file_path, 'w') { |f| f.write(content) }
   end
 
   def get_wrong_count_message(occurrence_in_file, actual_count)

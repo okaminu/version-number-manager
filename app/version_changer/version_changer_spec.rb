@@ -12,7 +12,7 @@ describe VersionChanger do
     allow(File).to receive(:open).with('/base/file.conf', 'w').and_yield @writable_file_spy
   end
 
-  it 'updates file content with a known number of substituted version numbers by ignoring unmatched version numbers' do
+  it 'updates file with a known number of substituted version numbers and ignores unmatched version numbers' do
     allow(OccurrencesInFilesFactory).to receive(:from_csv)
       .with('/csv/path').and_return [OccurrenceInFile.new('file.conf', 2)]
 
@@ -33,20 +33,22 @@ describe VersionChanger do
   end
 
   describe 'throws an error' do
+    # noinspection RubyResolve
     it 'if more version numbers were matched' do
       allow(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new('file.conf', 3)]
 
       expect(@writable_file_spy).not_to receive(:write)
       expect { VersionChanger.new.replace_in_files('/csv/path', version_number_replacement, '/base/') }
-        .to output("file.conf contains unexpected count of version numbers, expected 3, got 2\n").to_stderr
+        .to output(include('file.conf', 'unexpected count', 'expected 3', 'got 2')).to_stderr
     end
 
+    # noinspection RubyResolve
     it 'if less version numbers were matched' do
       allow(OccurrencesInFilesFactory).to receive(:from_csv).and_return [OccurrenceInFile.new('file.conf', 1)]
 
       expect(@writable_file_spy).not_to receive(:write)
       expect { VersionChanger.new.replace_in_files('/csv/path', version_number_replacement, '/base/') }
-        .to output("file.conf contains unexpected count of version numbers, expected 1, got 2\n").to_stderr
+        .to output(include('file.conf', 'unexpected count', 'expected 1', 'got 2')).to_stderr
     end
   end
 end
