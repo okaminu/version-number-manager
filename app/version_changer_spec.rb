@@ -1,5 +1,5 @@
 require_relative 'version_changer'
-require_relative '../occurrences_in_files_factory/occurrences_in_files_factory'
+require_relative 'occurrences_in_files_factory'
 
 describe VersionChanger do
   let(:version_number_replacement) { VersionNumberReplacement.new('1.0.0', '2.0.0') }
