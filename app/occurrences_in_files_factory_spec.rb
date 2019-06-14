@@ -10,7 +10,7 @@ describe OccurrencesInFilesFactory do
     actual_occurrences = OccurrencesInFilesFactory.from_csv(filename)
 
     expect(expected_occurrences[0]).to eql(actual_occurrences[0].relative_path)
-    expect(expected_occurrences[1]).to eql(actual_occurrences[0].occurrences)
+    expect(expected_occurrences[1]).to eql(actual_occurrences[0].count)
     expect(actual_occurrences.length).to eql(1)
   end
 end

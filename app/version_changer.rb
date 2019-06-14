@@ -15,7 +15,7 @@ class VersionChanger
     file_content = File.read(absolute_file_path)
 
     occurrence_count = file_content.scan(replacement.current_version).count
-    unless occurrence_in_file.occurrences == occurrence_count
+    unless occurrence_in_file.count == occurrence_count
       warn(get_wrong_count_message(occurrence_in_file, occurrence_count))
       return
     end
@@ -29,6 +29,6 @@ class VersionChanger
 
   def get_wrong_count_message(occurrence_in_file, actual_count)
     "#{occurrence_in_file.relative_path} contains unexpected count of version numbers, " \
-      "expected #{occurrence_in_file.occurrences}, got #{actual_count}"
+      "expected #{occurrence_in_file.count}, got #{actual_count}"
   end
 end

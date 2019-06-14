@@ -1,6 +1,6 @@
 require 'csv'
 
-OccurrenceInFile = Struct.new(:relative_path, :occurrences)
+OccurrenceInFile = Struct.new(:relative_path, :count)
 
 class OccurrencesInFilesFactory
   def self.from_csv(csv_file_path)
