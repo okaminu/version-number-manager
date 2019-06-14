@@ -4,7 +4,6 @@ This application replaces version numbers in given files.
 ## Installation
 
 ```
-gem install bundler
 bundle install
 ```
 
