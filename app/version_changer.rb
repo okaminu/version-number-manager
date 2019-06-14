@@ -1,4 +1,4 @@
-require_relative '../occurrences_in_files_factory/occurrences_in_files_factory'
+require_relative '../occurrences_in_files_factory/urrences_in_files_factory'
 
 VersionNumberReplacement = Struct.new(:current_version, :new_version)
 
