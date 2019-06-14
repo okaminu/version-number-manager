@@ -43,10 +43,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rake
-  rspec
+  rake (~> 12.3.2)
+  rspec (~> 3.8.0)
   rubocop (~> 0.71.0)
-  simplecov
+  simplecov (~> 0.16.1)
 
 BUNDLED WITH
    2.0.1

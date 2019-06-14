@@ -1,5 +1,5 @@
 # version-number-manager
-This project replaces version numbers in given files.
+This application replaces version numbers in given files.
 
 ## Installation
 
